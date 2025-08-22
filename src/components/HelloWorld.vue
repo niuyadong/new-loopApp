@@ -1,18 +1,20 @@
 <script setup>
 import { ref } from "vue";
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   msg: String,
 });
 
 const count = ref(0);
+const { t } = useI18n()
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
 
   <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
+    <button type="button" @click="count++">{{ t('message.count') }} {{ count }}</button>
     <p>
       Edit
       <code>components/HelloWorld.vue</code> to test HMR
@@ -37,20 +39,18 @@ const count = ref(0);
 </template>
 
 <style lang="scss" scoped>
-// 使用SCSS变量
-$text-color: #888;
-$card-bg: #f5f5f5;
-
+// 使用主题变量
 .read-the-docs {
-  color: $text-color;
+  color: var(--text-color);
 }
 
 .card {
-  background-color: $card-bg;
+  background-color: var(--card-bg);
   padding: 20px;
   border-radius: 8px;
   margin: 20px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 button {

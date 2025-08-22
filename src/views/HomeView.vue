@@ -1,16 +1,18 @@
 <template>
   <div class="home">
-    <h1>首页</h1>
-    <van-button type="primary" @click="showToast">点击显示提示</van-button>
-    <van-toast v-model:show="show" message="这是一个提示" />
+    <h1>{{ t('message.welcome') }}</h1>
+    <van-button type="primary" @click="showToast">{{ t('message.hello') }}</van-button>
+    <van-toast v-model:show="show" :message="t('message.welcome')" />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { showToast } from 'vant'
+import { useI18n } from 'vue-i18n'
 
 const show = ref(false)
+const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped>
@@ -20,7 +22,7 @@ const show = ref(false)
   padding: 20px;
 
   h1 {
-    color: #333;
+    color: var(--text-color);
     font-size: 2rem;
     margin-bottom: 30px;
   }

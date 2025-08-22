@@ -1,9 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
+// 异步导入组件
+const HomeView = () => import('../views/HomeView.vue')
+const AboutView = () => import('../views/AboutView.vue')
+const LoginView = () => import('../views/LoginView.vue')
 
 const routes = [
-  { path: '/', name: 'home', component: () => import('../views/HomeView.vue') },
-  { path: '/about', name: 'about', component: () => import('../views/AboutView.vue') },
-  { path: '/login', name: 'login', component: () => import('../views/LoginView.vue') }
+  { path: '/', name: 'home', component: HomeView },
+  { path: '/about', name: 'about', component: AboutView },
+  { path: '/login', name: 'login', component: LoginView }
 ]
 
 const router = createRouter({

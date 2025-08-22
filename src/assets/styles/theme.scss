@@ -1,0 +1,41 @@
+@import './variables.scss';
+
+// 主题样式
+.theme-light {
+  --text-color: $light-text;
+  --bg-color: $light-bg;
+  --border-color: $light-border;
+  --card-bg: $light-card-bg;
+}
+
+.theme-dark {
+  --text-color: $dark-text;
+  --bg-color: $dark-bg;
+  --border-color: $dark-border;
+  --card-bg: $dark-card-bg;
+}
+
+// 应用主题变量
+body {
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+a {
+  color: $primary-color;
+  &:hover {
+    color: $secondary-color;
+  }
+}
+
+button {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
