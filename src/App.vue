@@ -3,7 +3,6 @@ import { RouterView } from 'vue-router'
 import { useThemeStore } from './store/modules/theme'
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import LanguageSwitch from './components/LanguageSwitch.vue'
 
 const themeStore = useThemeStore()
 const isDark = computed(() => themeStore.isDark)
@@ -16,7 +15,6 @@ const toggleTheme = () => {
 
 <template>
   <div id="app">
-    <LanguageSwitch />
     <button @click="toggleTheme" class="theme-toggle-btn">
       {{ isDark ? t('message.switchToLight') : t('message.switchToDark') }}
     </button>
@@ -25,7 +23,7 @@ const toggleTheme = () => {
 </template>
 
 <style lang="scss" scoped>
-$primary-color: #42b983;
+@use 'sass:color';
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -34,8 +32,8 @@ $primary-color: #42b983;
   text-align: center;
   color: var(--text-color);
   background-color: var(--bg-color);
-  margin-top: 60px;
-  min-height: 100vh;
+  // min-height: 100vh;
+  margin: 0 auto;
   transition: color 0.3s, background-color 0.3s;
 }
 
@@ -44,7 +42,7 @@ $primary-color: #42b983;
   top: 20px;
   right: 20px;
   padding: 8px 16px;
-  background-color: $primary-color;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 4px;
@@ -52,7 +50,7 @@ $primary-color: #42b983;
   z-index: 1000;
 
   &:hover {
-    background-color: darken($primary-color, 10%);
+    background-color: color.adjust(var(--primary-color), $lightness: -10%);
   }
 }
 </style>

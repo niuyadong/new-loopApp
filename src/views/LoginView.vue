@@ -45,8 +45,7 @@ const handleLogin = async () => {
 </script>
 
 <style lang="scss" scoped>
-// 使用主题变量和SCSS变量
-$primary-color: #42b983;
+@use 'sass:color';
 
 .login-container {
   max-width: 400px;
@@ -54,7 +53,7 @@ $primary-color: #42b983;
   padding: 20px;
   border: 1px solid var(--border-color);
   border-radius: 5px;
-  margin-top: 100px;
+  // margin-top: 100px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   background-color: var(--card-bg);
 
@@ -84,7 +83,7 @@ $primary-color: #42b983;
 
       &:focus {
         outline: none;
-        border-color: $primary-color;
+        border-color: var(--primary-color);
         box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.2);
       }
     }
@@ -93,7 +92,7 @@ $primary-color: #42b983;
   .login-btn {
     width: 100%;
     padding: 10px;
-    background-color: $primary-color;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -101,7 +100,7 @@ $primary-color: #42b983;
     font-size: 16px;
 
     &:hover {
-      background-color: darken($primary-color, 10%);
+      background-color: var(--primary-color-dark);
     }
   }
 }

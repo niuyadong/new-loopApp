@@ -13,8 +13,17 @@ export const useThemeStore = defineStore('theme', {
     },
     // 应用主题
     applyTheme() {
-      document.body.classList.remove('theme-light', 'theme-dark');
-      document.body.classList.add(this.isDark ? 'theme-dark' : 'theme-light');
+      // 修改后：添加到html和body
+      const htmlElement = document.documentElement;
+      const bodyElement = document.body;
+
+      htmlElement.classList.remove('theme-light', 'theme-dark');
+      bodyElement.classList.remove('theme-light', 'theme-dark');
+
+      const themeClass = this.isDark ? 'theme-dark' : 'theme-light';
+      htmlElement.classList.add(themeClass);
+      bodyElement.classList.add(themeClass);
+
       // 存储主题偏好
       localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
     },

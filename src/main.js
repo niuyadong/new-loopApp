@@ -4,8 +4,9 @@ import App from './App.vue'
 import router from './router'
 import { setupStore, useThemeStore } from './store'
 import i18n from './i18n'
-import './assets/styles/style.scss'
-import './assets/styles/theme.scss'
+
+// 简化导入：只导入 style.scss，让它内部导入其他必要的文件
+import '@/assets/styles/style.scss'
 
 const app = createApp(App)
 setupStore(app)

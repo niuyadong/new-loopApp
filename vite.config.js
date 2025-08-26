@@ -6,6 +6,7 @@ import { VantResolver } from 'unplugin-vue-components/resolvers'
 import { visualizer } from 'rollup-plugin-visualizer'
 import viteCompression from 'vite-plugin-compression'
 import imagemin from 'vite-plugin-imagemin'
+import postcssPxtorem from 'postcss-pxtorem'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -46,7 +47,7 @@ export default defineConfig(({ mode }) => {
     css: {
       postcss: {
         plugins: [
-          require('postcss-pxtorem')({
+          postcssPxtorem({
             rootValue: 37.5,
             propList: ['*'],
             selectorBlackList: ['van-']
@@ -55,7 +56,8 @@ export default defineConfig(({ mode }) => {
       },
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "src/assets/styles/variables.scss";`,
+          // 修改为不引用已删除的文件
+          additionalData: ``,
         }
       }
     },
@@ -101,15 +103,8 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/api/, '')
         }
       },
-      // 启用快速刷新
-      hmr: true,
-      // 优化开发服务器性能
-      optimizeDeps: {
-        include: ['vue', 'vue-router', 'pinia', 'axios'],
-      }
-    },
-    preview: {
-      port: 8080,
+      // 禁用缓存
+      cacheDir: false
     }
   }
 })

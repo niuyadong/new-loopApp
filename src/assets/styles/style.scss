@@ -1,67 +1,259 @@
-// 引入全局变量
-@import './variables.scss';
+@use './theme.scss' as *;
 
-:root {
-  font-family: $font-main;
+// 全局重置
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Avenir', 'Helvetica', 'Arial', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+// 标题样式
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 24px 0;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+// 段落样式
+p {
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+// 链接样式
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
 
   &:hover {
-    color: #535bf2;
+    color: var(--secondary-color);
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
   }
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
+// 按钮样式
 button {
-  border-radius: $border-radius-md;
-  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
+  background-color: var(--card-bg);
+  color: var(--text-color);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.2s ease;
 
   &:hover {
-    border-color: #646cff;
+    border-color: var(--primary-color);
+    background-color: var(--bg-color);
   }
 
   &:focus,
   &:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 }
 
-.card {
-  padding: 2em;
+// 输入框样式
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+
+  &:disabled {
+    background-color: var(--card-bg);
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+select {
+  cursor: pointer;
+}
+
+// 列表样式
+ul,
+ol {
+  margin: 0 0 24 0;
+  padding-left: 36px;
+  color: var(--text-color);
+}
+
+li {
+  margin-bottom: 12px;
+}
+
+// 表格样式
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+}
+
+th,
+td {
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  text-align: left;
+  color: var(--text-color);
+}
+
+th {
+  background-color: var(--card-bg);
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: var(--card-bg);
+}
+
+// 图像样式
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// 代码样式
+code {
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  background-color: var(--card-bg);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  color: var(--text-color);
+}
+
+pre {
+  padding: 24px;
+  border-radius: 6px;
+  background-color: var(--card-bg);
+  overflow-x: auto;
+  margin-bottom: 24px;
+  color: var(--text-color);
+
+  code {
+    padding: 0;
+    background-color: transparent;
+  }
+}
+
+// 引用样式
+blockquote {
+  margin: 0 0 24px 0;
+  padding: 24px 24px 24px 32px;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  font-style: italic;
+}
+
+// 卡片样式
+.card {
+  padding: 32px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--card-bg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+// 分隔线样式
+hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 24px 0;
+}
+
+// 应用容器样式
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 24px;
   text-align: center;
 }

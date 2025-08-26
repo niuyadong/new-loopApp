@@ -1,18 +1,32 @@
-@import './variables.scss';
-
 // 主题样式
 .theme-light {
-  --text-color: $light-text;
-  --bg-color: $light-bg;
-  --border-color: $light-border;
-  --card-bg: $light-card-bg;
+  --text-color: #333;
+  --bg-color: #ffffff;
+  --border-color: #ddd;
+  --card-bg: #f5f5f5;
+  --primary-color: #42b983;
+  --primary-color-dark: #3aa876; // 比primary-color暗10%的颜色
+  --secondary-color: #3aa876;
 }
 
 .theme-dark {
-  --text-color: $dark-text;
-  --bg-color: $dark-bg;
-  --border-color: $dark-border;
-  --card-bg: $dark-card-bg;
+  --text-color: #f5f5f5;
+  --bg-color: #1a1a1a;
+  --border-color: #333;
+  --card-bg: #242424;
+  --primary-color: #42b983;
+  --primary-color-dark: #3aa876;
+  --secondary-color: #3aa876;
+}
+
+// 添加全局默认变量，确保无主题类时也能正常显示
+:root {
+  --text-color: #333;
+  --bg-color: #ffffff;
+  --border-color: #ddd;
+  --card-bg: #f5f5f5;
+  --primary-color: #42b983;
+  --secondary-color: #3aa876;
 }
 
 // 应用主题变量
@@ -28,9 +42,9 @@ body {
 }
 
 a {
-  color: $primary-color;
+  color: var(--primary-color);
   &:hover {
-    color: $secondary-color;
+    color: var(--secondary-color);
   }
 }
 
