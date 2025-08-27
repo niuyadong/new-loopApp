@@ -339,6 +339,10 @@ const handleRegister = () => {
   background-color: transparent;
 }
 
+.van-checkbox {
+  font-size: 14px;
+}
+
 /* 动画效果 */
 @keyframes fadeInUp {
   from {

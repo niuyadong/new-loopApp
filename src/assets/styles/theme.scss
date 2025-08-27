@@ -7,6 +7,7 @@
   --primary-color: #42b983;
   --primary-color-dark: #3aa876; // 比primary-color暗10%的颜色
   --secondary-color: #3aa876;
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 .theme-dark {
@@ -17,6 +18,7 @@
   --primary-color: #42b983;
   --primary-color-dark: #3aa876;
   --secondary-color: #3aa876;
+  --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 // 添加全局默认变量，确保无主题类时也能正常显示
@@ -27,23 +29,78 @@
   --card-bg: #f5f5f5;
   --primary-color: #42b983;
   --secondary-color: #3aa876;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  // 新增：定义过渡变量
+  --transition-time: 0.3s;
+  --transition-timing: ease;
+  --transition-all: all var(--transition-time) var(--transition-timing);
 }
 
 // 应用主题变量
 body {
   color: var(--text-color);
   background-color: var(--bg-color);
-  transition: color 0.3s, background-color 0.3s;
+  transition: var(--transition-all);
+}
+
+// 为所有使用主题变量的元素添加过渡
+.card,
+button,
+a,
+.van-card,
+.van-button,
+.van-field,
+.van-tabbar,
+.van-nav-bar,
+.van-cell,
+.van-checkbox,
+.van-form,
+.van-switch,
+.van-dropdown-menu,
+.van-dropdown-item {
+  transition: var(--transition-all);
+}
+
+// 扩展：添加对表单元素的过渡支持
+input,
+textarea,
+select {
+  transition: var(--transition-all);
+}
+
+// 扩展：添加对滚动条的主题支持
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--card-bg);
+  border-radius: 4px;
+  transition: var(--transition-all);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+  transition: var(--transition-all);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
 }
 
 .card {
   background-color: var(--card-bg);
   border-color: var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
 }
 
 a {
   color: var(--primary-color);
   &:hover {
+    cursor: pointer;
     color: var(--secondary-color);
   }
 }
@@ -52,4 +109,15 @@ button {
   background-color: var(--card-bg);
   color: var(--text-color);
   border-color: var(--border-color);
+}
+
+// 主题切换动画类
+.theme-transition {
+  transition: var(--transition-all);
+}
+
+// 暗色主题下的特殊效果
+.theme-dark .card:hover,
+.theme-dark button:hover {
+  box-shadow: 0 4px 12px rgba(66, 185, 131, 0.2);
 }

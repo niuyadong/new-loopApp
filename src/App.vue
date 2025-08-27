@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import Layout from './components/Layout.vue';
 import { useThemeStore } from './store/modules/theme';
 
@@ -16,13 +16,25 @@ const checkAuthentication = () => {
 
 onMounted(() => {
   checkAuthentication();
-  // 初始化主题
-  themeStore.initTheme();
+  // 主题已经在main.js中初始化，这里不需要再次初始化
+  
+  // 监听认证状态变化，动态调整主题显示
+  const handleAuthChange = () => {
+    checkAuthentication();
+  };
+  
+  // 可以添加认证状态变化的监听
+  window.addEventListener('authChanged', handleAuthChange);
+});
+
+// 清理监听器 - 移到外部
+onUnmounted(() => {
+  window.removeEventListener('authChanged', handleAuthChange);
 });
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" class="theme-transition">
     <!-- 非登录页面使用Layout组件 -->
     <Layout v-if="isAuthenticated" />
     
@@ -35,6 +47,6 @@ onMounted(() => {
 #app {
   min-height: 100vh;
   background-color: var(--bg-color);
-  transition: background-color 0.3s ease;
+  transition: var(--transition-all);
 }
 </style>

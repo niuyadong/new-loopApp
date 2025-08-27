@@ -1,5 +1,5 @@
 <template>
-  <div class="app-layout">
+  <div class="app-layout theme-transition">
     <!-- 顶部导航栏 -->
     <van-nav-bar
       :title="currentTitle"
@@ -16,6 +16,7 @@
           class="theme-toggle"
           @click="toggleTheme"
           :color="isDark ? '#f5f5f5' : '#333'"
+          :loading="themeToggling"
         />
       </template>
     </van-nav-bar>
@@ -52,11 +53,12 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '../store/modules/theme';
 import LanguageSwitch from './LanguageSwitch.vue';
+import { showToast } from 'vant';
 
 const router = useRouter();
 const route = useRoute();
@@ -65,6 +67,8 @@ const themeStore = useThemeStore();
 
 // 当前激活的标签页
 const activeTab = ref('home');
+// 主题切换状态（防止重复点击）
+const themeToggling = ref(false);
 
 // 主题状态
 const isDark = computed(() => themeStore.isDark);
@@ -108,9 +112,54 @@ watch(() => route.path, (newPath) => {
 });
 
 // 切换主题
-const toggleTheme = () => {
-  themeStore.toggleTheme();
+const toggleTheme = async () => {
+  // 防止重复点击
+  if (themeToggling.value) return;
+  
+  themeToggling.value = true;
+  
+  try {
+    // 添加主题切换的平滑过渡
+    document.body.style.opacity = '0.8';
+    
+    themeStore.toggleTheme();
+    
+    // 显示主题切换成功的提示
+    showToast({
+      message: isDark.value ? t('message.switchToDark') : t('message.switchToLight'),
+      icon: isDark.value ? 'moon-o' : 'sun-o',
+      duration: 1000
+    });
+    
+    // 等待短暂时间以显示过渡效果
+    await new Promise(resolve => setTimeout(resolve, 100));
+  } catch (error) {
+    console.error('主题切换失败:', error);
+  } finally {
+    document.body.style.opacity = '1';
+    themeToggling.value = false;
+  }
 };
+
+// 监听全局主题变化事件（可选）
+onMounted(() => {
+  const handleThemeChange = () => {
+    // 组件可以在这里响应主题变化
+  };
+  
+  window.addEventListener('themeChanged', handleThemeChange);
+  
+  // 清理监听器
+  onUnmounted(() => {
+    window.removeEventListener('themeChanged', handleThemeChange);
+  });
+});
+
+// 清理主题相关资源
+onUnmounted(() => {
+  // 如果在其他组件中需要，可以调用清理方法
+  // themeStore.cleanupTheme();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -119,6 +168,7 @@ const toggleTheme = () => {
   flex-direction: column;
   min-height: 100vh;
   background-color: var(--bg-color);
+  transition: var(--transition-all);
 }
 
 .app-header {
@@ -126,33 +176,47 @@ const toggleTheme = () => {
   border-bottom: 1px solid var(--border-color);
   position: relative;
   z-index: 100;
+  transition: var(--transition-all);
 }
 
 .app-main {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  transition: var(--transition-all);
 }
 
 .app-footer {
   background-color: var(--card-bg);
   border-top: 1px solid var(--border-color);
+  transition: var(--transition-all);
 }
 
 .theme-toggle {
   margin-left: 10px;
+  transition: var(--transition-all);
 }
 
 // Vant组件样式覆盖
 .van-nav-bar {
   background-color: var(--card-bg);
+  transition: var(--transition-all);
 }
 
 .van-nav-bar__title {
   color: var(--text-color);
+  transition: var(--transition-all);
 }
 
 .van-tabbar {
   background-color: var(--card-bg);
+  transition: var(--transition-all);
+}
+
+// 为所有Vant组件添加过渡效果
+.van-button,
+.van-tabbar-item,
+.van-dropdown-menu {
+  transition: var(--transition-all);
 }
 </style>

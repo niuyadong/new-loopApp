@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
             rootValue: 37.5, // 基于375px设计稿
             propList: ['*'], // 转换所有属性中的px为rem
             unitPrecision: 5, // 保留5位小数
-            // selectorBlackList: ['van-'], // 不对vant组件进行转换
+            selectorBlackList: ['van-'], // 关键修改：排除vant组件的转换
             replace: true, // 直接替换px为rem
             mediaQuery: false, // 不在媒体查询中转换
             minPixelValue: 1 // 小于1px的不转换
