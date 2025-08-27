@@ -10,6 +10,32 @@ export default {
     loginBtn: '登录',
     switchToDark: '切换到夜间模式',
     switchToLight: '切换到日间模式',
-    count: '计数是'
+    count: '计数是',
+    projectName: '项目名称',
+    version: '版本',
+    techStack: '技术栈',
+    description: '描述',
+    features: '特性',
+    internationalization: '国际化',
+    themeSwitching: '主题切换',
+    userAuthentication: '用户认证',
+    responsiveDesign: '响应式设计',
+    i18nExample: '国际化示例',
+    themeSwitch: '主题切换',
+    currentTheme: '当前主题:',
+    darkTheme: '深色',
+    lightTheme: '浅色',
+    // 添加缺失的翻译键
+    required: '不能为空',
+    rememberPassword: '记住密码',
+    forgotPassword: '忘记密码？',
+    noAccount: '还没有账号？',
+    register: '注册',
+    allRightsReserved: '保留所有权利',
+    formValidateFailed: '表单验证失败',
+    loginSuccess: '登录成功',
+    loginFailed: '登录失败',
+    forgotPasswordHint: '请联系管理员重置密码',
+    registerHint: '注册功能即将上线'
   }
 }

@@ -3,54 +3,38 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { VantResolver } from 'unplugin-vue-components/resolvers'
-import { visualizer } from 'rollup-plugin-visualizer'
-import viteCompression from 'vite-plugin-compression'
-import imagemin from 'vite-plugin-imagemin'
 import postcssPxtorem from 'postcss-pxtorem'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd())
-
+  
   return {
     base: env.VITE_BASE_URL || '/',
     plugins: [
       vue(),
+      // 自动导入Vue相关API
       AutoImport({
-        resolvers: [VantResolver()],
-        dts: './auto-imports.d.ts', // 生成类型声明文件
+        imports: ['vue', 'vue-router', 'vue-i18n'],
+        dts: './auto-imports.d.ts',
       }),
+      // Vant组件自动按需导入 - 官方推荐的简洁配置
       Components({
         resolvers: [VantResolver()],
-        dts: './components.d.ts', // 生成组件类型声明文件
-      }),
-      // 打包体积分析
-      mode === 'production' && visualizer({
-        open: false,
-        gzipSize: true,
-        brotliSize: true,
-      }),
-      // 静态资源压缩
-      mode === 'production' && viteCompression({
-        algorithm: 'gzip',
-        ext: '.gz',
-        threshold: 10240, // 10KB以上才压缩
-      }),
-      // 图片优化
-      imagemin({
-        gifsicle: { optimizationLevel: 7 },
-        jpegtran: { quality: 80 },
-        optipng: { optimizationLevel: 7 },
-        svgo: { plugins: [{ removeViewBox: false }] },
+        dts: './components.d.ts',
       }),
     ],
     css: {
       postcss: {
         plugins: [
           postcssPxtorem({
-            rootValue: 37.5,
-            propList: ['*'],
-            selectorBlackList: ['van-']
+            rootValue: 37.5, // 基于375px设计稿
+            propList: ['*'], // 转换所有属性中的px为rem
+            unitPrecision: 5, // 保留5位小数
+            // selectorBlackList: ['van-'], // 不对vant组件进行转换
+            replace: true, // 直接替换px为rem
+            mediaQuery: false, // 不在媒体查询中转换
+            minPixelValue: 1 // 小于1px的不转换
           })
         ]
       },

@@ -1,48 +1,51 @@
-<script setup>
-import { useI18n } from 'vue-i18n'
-import { ref, computed } from 'vue'
-
-const { locale } = useI18n()
-const currentLang = ref(locale.value)
-
-// 切换语言
-const switchLanguage = (lang) => {
-  currentLang.value = lang
-  locale.value = lang
-  localStorage.setItem('language', lang)
-}
-
-// 语言列表
-const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'zh-CN', name: '中文(简体)' }
-]
-</script>
-
 <template>
   <div class="language-switch">
-    <select v-model="currentLang" @change="switchLanguage(currentLang)">
-      <option v-for="lang in languages" :key="lang.code" :value="lang.code">
-        {{ lang.name }}
-      </option>
-    </select>
+    <van-dropdown-menu>
+      <van-dropdown-item
+        v-model="currentLang"
+        :options="languages"
+        @change="switchLanguage"
+        class="lang-dropdown"
+      />
+    </van-dropdown-menu>
   </div>
 </template>
 
+<script setup>
+import { useI18n } from 'vue-i18n';
+import { ref, onMounted } from 'vue';
+
+const { locale } = useI18n();
+const currentLang = ref('zh-CN');
+
+// 语言选项
+const languages = [
+  { value: 'en', label: 'English' },
+  { value: 'zh-CN', label: '中文(简体)' }
+];
+
+// 切换语言
+const switchLanguage = (lang) => {
+  currentLang.value = lang;
+  locale.value = lang;
+  localStorage.setItem('language', lang);
+};
+
+onMounted(() => {
+  // 从本地存储或i18n实例获取当前语言
+  const savedLang = localStorage.getItem('language') || locale.value;
+  currentLang.value = savedLang;
+});
+</script>
+
 <style lang="scss" scoped>
 .language-switch {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
+  margin-right: 10px;
+}
 
-  select {
-    padding: 8px 16px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    cursor: pointer;
-  }
+.lang-dropdown {
+  // 覆盖默认宽度
+  --van-dropdown-menu-item-active-bg-color: rgba(66, 185, 131, 0.1);
+  --van-dropdown-menu-title-color: var(--text-color);
 }
 </style>

@@ -10,6 +10,32 @@ export default {
     loginBtn: 'Login',
     switchToDark: 'Switch to Dark Mode',
     switchToLight: 'Switch to Light Mode',
-    count: 'Count is'
+    count: 'Count is',
+    projectName: 'Project Name',
+    version: 'Version',
+    techStack: 'Tech Stack',
+    description: 'Description',
+    features: 'Features',
+    internationalization: 'Internationalization',
+    themeSwitching: 'Theme Switching',
+    userAuthentication: 'User Authentication',
+    responsiveDesign: 'Responsive Design',
+    i18nExample: 'Internationalization Example',
+    themeSwitch: 'Theme Switch',
+    currentTheme: 'Current Theme:',
+    darkTheme: 'Dark',
+    lightTheme: 'Light',
+    // 添加缺失的翻译键
+    required: ' is required',
+    rememberPassword: 'Remember password',
+    forgotPassword: 'Forgot password?',
+    noAccount: 'Don\'t have an account?',
+    register: 'Register',
+    allRightsReserved: 'All rights reserved',
+    formValidateFailed: 'Form validation failed',
+    loginSuccess: 'Login successful',
+    loginFailed: 'Login failed',
+    forgotPasswordHint: 'Please contact administrator for password reset',
+    registerHint: 'Registration feature is coming soon'
   }
 }

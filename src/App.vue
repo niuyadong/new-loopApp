@@ -1,56 +1,40 @@
 <script setup>
-import { RouterView } from 'vue-router'
-import { useThemeStore } from './store/modules/theme'
-import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { RouterView } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import Layout from './components/Layout.vue';
+import { useThemeStore } from './store/modules/theme';
 
-const themeStore = useThemeStore()
-const isDark = computed(() => themeStore.isDark)
-const { t } = useI18n()
+// 认证相关逻辑
+const isAuthenticated = ref(false);
+const themeStore = useThemeStore();
 
-const toggleTheme = () => {
-  themeStore.toggleTheme()
-}
+// 检查用户是否已登录
+const checkAuthentication = () => {
+  const token = localStorage.getItem('token');
+  isAuthenticated.value = !!token;
+};
+
+onMounted(() => {
+  checkAuthentication();
+  // 初始化主题
+  themeStore.initTheme();
+});
 </script>
 
 <template>
   <div id="app">
-    <button @click="toggleTheme" class="theme-toggle-btn">
-      {{ isDark ? t('message.switchToLight') : t('message.switchToDark') }}
-    </button>
-    <RouterView />
+    <!-- 非登录页面使用Layout组件 -->
+    <Layout v-if="isAuthenticated" />
+    
+    <!-- 登录页面直接使用RouterView -->
+    <RouterView v-else />
   </div>
 </template>
 
 <style lang="scss" scoped>
-@use 'sass:color';
-
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: var(--text-color);
+  min-height: 100vh;
   background-color: var(--bg-color);
-  // min-height: 100vh;
-  margin: 0 auto;
-  transition: color 0.3s, background-color 0.3s;
-}
-
-.theme-toggle-btn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 8px 16px;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 1000;
-
-  &:hover {
-    background-color: color.adjust(var(--primary-color), $lightness: -10%);
-  }
+  transition: background-color 0.3s ease;
 }
 </style>

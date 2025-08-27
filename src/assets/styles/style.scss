@@ -1,4 +1,45 @@
+/* ===========================================================================
+ * 项目基础样式文件
+ * 版本: 1.0.0
+ * 日期: 2024-03-13
+ * 描述: 定义项目全局样式、重置样式和基础组件样式
+ * =========================================================================== */
+
+// 导入主题样式
 @use './theme.scss' as *;
+// 导入Sass map模块以使用map.get函数
+@use 'sass:map';
+
+// ===========================================================================
+// 1. Vant主题变量覆盖
+// ===========================================================================
+
+// 覆盖Vant默认主题变量，使其与我们的主题系统保持一致
+:root {
+  // 颜色变量
+  --van-primary-color: var(--primary-color);
+  --van-text-color: var(--text-color);
+  --van-text-color-secondary: var(--text-color);
+  --van-background: var(--bg-color);
+  --van-border-color: var(--border-color);
+  --van-card-background: var(--card-bg);
+  --van-white: var(--bg-color);
+}
+
+// 深色主题下的Vant变量覆盖
+.theme-dark {
+  --van-primary-color: var(--primary-color);
+  --van-text-color: var(--text-color);
+  --van-text-color-secondary: var(--text-color);
+  --van-background: var(--bg-color);
+  --van-border-color: var(--border-color);
+  --van-card-background: var(--card-bg);
+  --van-white: var(--bg-color);
+}
+
+// ===========================================================================
+// 2. CSS 重置和基础设置
+// ===========================================================================
 
 // 全局重置
 * {
@@ -7,10 +48,15 @@
   box-sizing: border-box;
 }
 
+// 根元素基础设置
 html {
+  // 字体设置
   font-family: 'Avenir', 'Helvetica', 'Arial', sans-serif;
+  font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
+  
+  // 文本渲染优化
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -18,55 +64,57 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  // 滚动行为
+  scroll-behavior: smooth;
 }
 
+// 文档主体设置
 body {
   margin: 0;
   min-height: 100vh;
   color: var(--text-color);
   background-color: var(--bg-color);
   transition: color 0.3s ease, background-color 0.3s ease;
+  overflow-x: hidden;
 }
 
+// 应用容器
+#app {
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+// ===========================================================================
+// 2. 基础排版样式
+// ===========================================================================
+
 // 标题样式
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0 0 24px 0;
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 1.5rem 0;
   font-weight: 600;
   line-height: 1.2;
   color: var(--text-color);
-}
-h1 {
-  font-size: 2.5rem;
+  letter-spacing: -0.025em;
 }
 
-h2 {
-  font-size: 2rem;
-}
+h1 { font-size: 2.5rem; }
 
-h3 {
-  font-size: 1.75rem;
-}
+h2 { font-size: 2rem; }
 
-h4 {
-  font-size: 1.5rem;
-}
+h3 { font-size: 1.75rem; }
 
-h5 {
-  font-size: 1.25rem;
-}
+h4 { font-size: 1.5rem; }
 
-h6 {
-  font-size: 1rem;
-}
+h5 { font-size: 1.25rem; }
+
+h6 { font-size: 1rem; }
 
 // 段落样式
 p {
-  margin: 0 0 24px 0;
+  margin: 0 0 1.5rem 0;
   line-height: 1.6;
   color: var(--text-color);
 }
@@ -75,7 +123,7 @@ p {
 a {
   color: var(--primary-color);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
 
   &:hover {
     color: var(--secondary-color);
@@ -87,6 +135,31 @@ a {
     outline-offset: 2px;
   }
 }
+
+// 列表样式
+ul, ol {
+  margin: 0 0 1.5rem 0;
+  padding-left: 1.5rem;
+  color: var(--text-color);
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+// 强调文本
+strong {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+em {
+  font-style: italic;
+}
+
+// ===========================================================================
+// 3. 表单元素样式
+// ===========================================================================
 
 // 按钮样式
 button {
@@ -103,6 +176,7 @@ button {
   color: var(--text-color);
   cursor: pointer;
   transition: all 0.2s ease;
+  user-select: none;
 
   &:hover {
     border-color: var(--primary-color);
@@ -118,13 +192,12 @@ button {
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
   }
 }
 
 // 输入框样式
-input,
-textarea,
-select {
+input, textarea, select {
   width: 100%;
   padding: 12px;
   border: 1px solid var(--border-color);
@@ -133,11 +206,12 @@ select {
   font-family: inherit;
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:focus {
     outline: none;
     border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.1);
   }
 
   &:disabled {
@@ -149,34 +223,33 @@ select {
 
 textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 120px;
+  line-height: 1.5;
 }
 
 select {
   cursor: pointer;
 }
 
-// 列表样式
-ul,
-ol {
-  margin: 0 0 24 0;
-  padding-left: 36px;
+// 标签样式
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
   color: var(--text-color);
 }
 
-li {
-  margin-bottom: 12px;
-}
+// ===========================================================================
+// 4. 表格样式
+// ===========================================================================
 
-// 表格样式
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 }
 
-th,
-td {
+th, td {
   padding: 12px;
   border: 1px solid var(--border-color);
   text-align: left;
@@ -192,14 +265,31 @@ tr:nth-child(even) {
   background-color: var(--card-bg);
 }
 
-// 图像样式
+tr:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 5%, var(--card-bg));
+}
+
+// ===========================================================================
+// 5. 媒体元素样式
+// ===========================================================================
+
 img {
   max-width: 100%;
   height: auto;
   display: block;
+  border-radius: 4px;
 }
 
-// 代码样式
+// 视频和音频
+video, audio {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+// ===========================================================================
+// 6. 代码样式
+// ===========================================================================
+
 code {
   padding: 0.2em 0.4em;
   border-radius: 4px;
@@ -210,50 +300,188 @@ code {
 }
 
 pre {
-  padding: 24px;
+  padding: 1.5rem;
   border-radius: 6px;
   background-color: var(--card-bg);
   overflow-x: auto;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   color: var(--text-color);
+  line-height: 1.5;
 
   code {
     padding: 0;
     background-color: transparent;
+    font-size: 1em;
   }
 }
 
-// 引用样式
+// ===========================================================================
+// 7. 引用样式
+// ===========================================================================
+
 blockquote {
-  margin: 0 0 24px 0;
-  padding: 24px 24px 24px 32px;
+  margin: 0 0 1.5rem 0;
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
   border-left: 4px solid var(--primary-color);
   background-color: var(--card-bg);
   color: var(--text-color);
   font-style: italic;
+  line-height: 1.6;
 }
+
+// ===========================================================================
+// 8. 辅助组件样式
+// ===========================================================================
 
 // 卡片样式
 .card {
-  padding: 32px;
+  padding: 2rem;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
   background-color: var(--card-bg);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
 }
 
 // 分隔线样式
 hr {
   border: none;
   border-top: 1px solid var(--border-color);
-  margin: 24px 0;
+  margin: 2rem 0;
+  width: 100%;
 }
 
-// 应用容器样式
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 24px;
-  text-align: center;
+// ===========================================================================
+// 9. 实用工具类
+// ===========================================================================
+
+// 隐藏元素
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// 文本对齐
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+// 显示/隐藏
+.hidden { display: none !important; }
+.invisible { visibility: hidden; }
+
+// 边距工具类
+.m-0 { margin: 0 !important; }
+.mt-0 { margin-top: 0 !important; }
+.mr-0 { margin-right: 0 !important; }
+.mb-0 { margin-bottom: 0 !important; }
+.ml-0 { margin-left: 0 !important; }
+
+// ===========================================================================
+// 10. 响应式设计基础
+// ===========================================================================
+
+// 媒体查询断点
+$breakpoints: (
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+  '2xl': 1536px
+);
+
+// 小屏幕设备
+@media (max-width: map.get($breakpoints, 'sm')) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  
+  // 调整间距
+  .card {
+    padding: 1rem;
+  }
+}
+
+// 大屏幕设备
+@media (min-width: map.get($breakpoints, 'lg')) {
+  #app {
+    max-width: 1280px;
+    padding: 0 2rem;
+  }
+}
+
+// ===========================================================================
+// 11. 打印样式
+// ===========================================================================
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a, a:visited {
+    text-decoration: underline;
+  }
+  
+  pre, blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  
+  img {
+    page-break-inside: avoid;
+  }
+  
+  @page {
+    margin: 0.5cm;
+  }
+  
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+// ===========================================================================
+// 12. 滚动条样式
+// ===========================================================================
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--card-bg);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
 }
